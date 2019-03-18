@@ -60,3 +60,62 @@
 			return prev;
 		});
 	```
+
+## 数组常见API
+  - concat()
+	```
+	连接两个或更多的数组,并返回结果
+	var a = [1,2,3];
+	document.write(a.concat(4,5));
+	输出: 1,2,3,4,5
+	
+	语法:arrayObject.concat(arrayX,arrayX,...,arrayX);
+	```
+- join()
+```javascript
+把数组的所有元素放入一个字符串,元素通过指定的分隔符进行分隔
+var arr = new Array();
+arr[0] = "George";
+arr[1] = "John";
+arr[2] = "Thomas";
+document.write(arr.join())
+输出结果:George,John,Thomas
+
+语法:arrayObject.join(separator);//separator 可选,指定分隔符,默认逗号分割
+```
+
+- pop()
+```javascript
+```
+
+- push()
+```javascript
+```
+- reverse()
+```javascript
+```
+- shift()
+```javascript
+```
+- unshift()
+```javascript
+```
+- slice()
+```javascript
+```
+- sort()
+```javascript
+```
+- splice()
+```javascript
+```
+- toSource()
+```javascript
+```
+- toString()
+```javascript
+```
+- valueOf()
+```javascript
+```
+	

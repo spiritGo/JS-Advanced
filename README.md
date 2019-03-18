@@ -173,5 +173,5 @@ note for js advanced
 			return prev;
 		});
 	```
-
+	[https://github.com/spiritGo/JS-advanced/blob/master/array/array.md](https://github.com/spiritGo/JS-advanced/blob/master/array/array.md "数组操作")
 ----------
