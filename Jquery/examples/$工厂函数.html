@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../lib/jquery-1.11.3.js"></script>
+</head>
+<body>
+<h1>jquery/$工厂函数</h1>
+<button id="btn1">0</button>
+<ul>
+	<li>item</li>
+	<li>fdsaf</li>
+	<li>dsfdsaf</li>
+	<li>dfsadf</li>
+</ul>
+<ul>
+	<li>fsdafdsaf</li>
+	<li>fdsadsaf</li>
+	<li>fdsdsaf</li>
+	<li>fdsafdsa</li>
+</ul>
+<script>
+    $("#btn1").on("click", function () {
+        this.innerHTML = parseInt(this.innerHTML) + 1
+    });
+
+    $("ul>li:first-child").css({
+    	background: 'red',
+    	color: 'white'
+    });
+
+    $("ul>li:eq(5)").css('color', 'blue');
+
+    //查找处于偶数位置的li
+ 	$("ul>li:even").css('background', 'blue');
+</script>
+</body>
+</html>

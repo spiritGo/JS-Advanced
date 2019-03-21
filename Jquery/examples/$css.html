@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../lib/jquery-1.11.3.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            padding:0 10px;
+            border-top: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+<ul>
+    <li>上一首</li>
+    <li>暂停</li>
+    <li>加速</li>
+    <li>下一首</li>
+</ul>
+
+<div class="menu">
+    <span class="menu-header">show</span>
+
+    <div class="menu-item"></div>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>item1</th>
+        <th>item2</th>
+        <th>item3</th>
+        <th>item4</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>item1</td>
+        <td>item2</td>
+        <td>item3</td>
+        <td>item4</td>
+    </tr>
+    <tr>
+        <td>item1</td>
+        <td>item2</td>
+        <td>item3</td>
+        <td>item4</td>
+    </tr>
+    <tr>
+        <td>item1</td>
+        <td>item2</td>
+        <td>item3</td>
+        <td>item4</td>
+    </tr>
+    <tr>
+        <td>item1</td>
+        <td>item2</td>
+        <td>item3</td>
+        <td>item4</td>
+    </tr>
+    </tbody>
+</table>
+
+<button>提交</button>
+<button>css</button>
+<script>
+    $("ul").css({
+        listStyle: 'none',
+        display: 'flex'
+    });
+
+    $("ul>li").css({
+        border: '1px solid #eee',
+        padding: '10px',
+        cursor: 'pointer'
+    }).hover(function () {
+        $(this).css('backgroundColor', '#eee');
+    }, function () {
+        $(this).css('backgroundColor', '#fff');
+    });
+
+    $("ul>li+li").css('border-left', '0');
+    $("ul>li:first").css('border-radius', '6px 0 0 6px');
+    $("ul>li:last").css('border-radius', '0 6px 6px 0');
+
+
+    $(".menu-item").css({
+        backgroundColor: 'red',
+        width: '200px',
+        height: '150px',
+        margin: '10px 0',
+        display: 'none'
+    }).prev().css({
+        border: '1px solid #eee',
+        padding: '5px 10px'
+    }).parent().on("mouseover", function () {
+        $(this).children('.menu-item').css('display', 'block');
+    }).on("mouseout", function () {
+        $(this).children('.menu-item').css('display', 'none');
+    });
+
+    $("table tbody tr:even").css('background','pink');
+
+    $("button:contains(提交)").css('background','green')
+</script>
+</body>
+</html>
