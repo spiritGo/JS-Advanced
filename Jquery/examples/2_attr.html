@@ -13,10 +13,10 @@
 <script>
     //单击图片，切换下一张
     $("img").on('click', function (event) {
-        var alt = $(this).attr('alt');
+        let alt = $(this).attr('alt');
         alt++;
         if (alt > 4) alt = 1;
-        var src = "../img/" + alt + ".jpg";
+        const src = "../img/" + alt + ".jpg";
 //        $(this).attr({alt:alt, src:src});
         $(this).attr({alt, src});
 
