@@ -236,6 +236,62 @@ $ele.slideToggle([time]);
 $ele.fadeIn([time]);
 $ele.fadeOut([time]);
 $ele.fadeToggle([time]);
+
+//animate
+$ele.animate({
+    //目标样式
+    css属性名: 值,
+    ...
+}, 动画持续时间, function() {
+    //动画播放后执行
+    //jq在这里的this代表.前的主语
+});
+
+//停止动画并清空队列
+$ele.stop(true);
+
+//选择或判断动画是否执行
+: animated
+```
+
+## 类数组对象
+
+```javascript
+//each
+$ele.each(i, el);
+
+//index
+$ele.index($el)
+```
+
+## 封装自定义的jquery插件
+
+```javascript
+1. 提取插件的css到一个独立的css文件中
+2. 定义插件函数, 在jquery的原型中处理jquery对象
+```
+
+## jquery中的ajax
+
+```javascript
+//jq3.x
+$.ajax({
+    url: '服务端接口地址',
+    type: 'get/post',
+    data: '要发送给服务端的参数', //支持对象语法{name:'tom2'}
+    dataType: 'json'
+}).then(function(result) {
+    //收到服务端的响应后自动执行
+});
+
+//旧版本
+$.ajax({
+    url: '服务端接口地址',
+    type: 'get/post',
+    data: '要发送给服务端的参数', //支持对象语法{name:'tom2'}
+    dataType: 'json',
+    success: function(result) {}
+})
 ```
 
 
