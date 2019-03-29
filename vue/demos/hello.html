@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>hello vue</title>
+	<script src="../vue.min.js"></script>
+	<style>
+		.class1 {
+			background: red;
+			font-size: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<p>{{message}}</p>
+		<p v-bind:class="{'class1':use}">{{age}}</p>
+		<p v-html="message"></p>
+	</div>
+	<script>
+		new Vue({
+			el:"#app",
+			data:{
+				message:'<h1>hello Vue.js</h1>',
+				age:13,
+				use:false
+			}
+		});
+
+		var app = document.querySelector("#app");
+		app.onclick=function(){
+			console.log("helloworld");
+		};
+
+		app.addEventListener("click",function(){
+			alert("ok");
+		});
+	</script>
+</body>
+</html>

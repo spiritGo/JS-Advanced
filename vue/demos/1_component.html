@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.min.js"></script>
+    <style>
+        #tplContainer {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <my-container></my-container>
+    <my-container></my-container>
+    <my-container></my-container>
+</div>
+<div id="tplContainer">
+    <div>
+        <button @click="substract">-</button>
+        <span>{{n}}</span>
+        <button @click="add">+</button>
+    </div>
+</div>
+<script>
+    Vue.component("my-container", {
+        template: "#tplContainer",
+        data: function () {
+            return {
+                n: 1
+            };
+        },
+        methods: {
+            add() {
+                this.n++;
+            },
+            substract() {
+                this.n--;
+            }
+        }
+    });
+
+    new Vue({
+        el: '#app',
+        data: {}
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!-- 2_interpolate.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>interpolate</title>
+	<script src="../vue.min.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h1>用户名:{{name}}</h1>
+		<h1>积分:{{score}}</h1>
+		<h1>性别:{{sex==1?'男':'女'}}</h1>
+		<h1>下单时间:{{new Date(orderTime).toLocaleString()}}</h1>
+		<h1>星期{{week[0]}}</h1>
+	</div>
+	<script>
+		new Vue({
+			el:'#app',
+			data:{
+				name:'tom',
+				score:2000,
+				sex:1,
+				orderTime:124556545654,
+				week:['日','一','二','三']
+			}
+		});
+	</script>
+</body>
+</html>

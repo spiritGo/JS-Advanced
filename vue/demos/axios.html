@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.min.js"></script>
+    <script src="../axios.min.js"></script>
+</head>
+<body>
+<div id="app"></div>
+<script>
+    /*axios.get("url",{
+      params:{请求参数["name":"tom","age":12]}
+      }).then(function(result){});*/
+    axios.get("http://hao1.91nzh.com/q/34/").then(function (result) {
+        console.log(result)
+    });
+
+    new Vue({
+        el: '#app',
+        data: {}
+    });
+</script>
+</body>
+</html>

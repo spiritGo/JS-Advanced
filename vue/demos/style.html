@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <p v-text="msg"></p>
+    <input type="text" v-model="msg">
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            msg:""
+        },
+        watch: {
+            msg(){
+                console.log(this.msg)
+            }
+        }
+    });
+
+    Vue.directive("指令名",{//起名时不能带v-
+        /*回调函数,当拥有v-focus的元素挂载到页面
+        上之后,自动执行*/
+        inserted(ele){//ele指有v-focus的当前的dom元素
+            ele.focus()
+        }
+    })
+
+    Vue.filter("过滤名",function (v) {
+        //v:会自动接住变量传入的原始值
+        return 新值;
+    });
+
+</script>
+</body>
+</html>

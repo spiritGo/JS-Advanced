@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <h1>性别1:{{sex1 | sexConvert("en") | sexIcon}}</h1>
+</div>
+<script>
+    /*Vue.filter("sexConvert", function (value) {
+        return value === 1 ? "男" : "女";
+    });
+
+    Vue.filter("sexIcon", function (value) {
+        return value === "男" ? value + "♂" : value + "♀";
+    });*/
+
+    /*带参构造器*/
+    Vue.filter("sexConvert", function (value,lang) {
+        if (lang === "en"){
+            return value === 1 ? "female" : "male";
+        }else{
+            return value === 1 ? "男" : "女";
+        }
+    });
+
+    Vue.filter("sexIcon", function (value) {
+        return value === "男"|| value === "female" ? value + "♂" : value + "♀";
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            sex1: 0
+        }
+    });
+</script>
+</body>
+</html>

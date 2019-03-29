@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="vue.min.js"></script>
+    <style></style>
+</head>
+<body>
+<div id="app">
+    <input type="checkbox" v-model="ischecked" checked="">
+    <button :disabled="!ischecked">提交</button>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            ischecked:false
+        }
+    });
+</script>
+</body>
+</html>
