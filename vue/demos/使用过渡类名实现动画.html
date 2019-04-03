@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.min.js"></script>
+    <style>
+        .v-enter,
+        .v-leave-to {
+            opacity: 0;
+            transform: translateX(150px);
+        }
+
+        .v-enter-active,
+        .v-leave-avtive {
+            transition: all 0.8s ease;
+        }
+
+        .my-enter,
+        .my-leave-to {
+            opacity: 0;
+            transform: translateY(150px);
+        }
+
+        .my-enter-active,
+        .my-leave-avtive {
+            opacity: 1;
+            transition: all 0.8s ease;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <input type="button" value="toggle" @click="flag=!flag">
+    <!-- 1.使用 transition 元素,把需要动画的元素包裹起来-->
+    <!-- transition元素是Vue官方提供的-->
+    <transition>
+        <h3 v-if="flag">这是一个H3</h3>
+    </transition>
+
+    <input type="button" value="toggle" @click="flag2=!flag2">
+    <!-- 1.使用 transition 元素,把需要动画的元素包裹起来-->
+    <!-- transition元素是Vue官方提供的-->
+    <transition name="my">
+        <h3 v-if="flag2">这是一个H3</h3>
+    </transition>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            flag: false,
+            flag2:false
+        }
+    });
+</script>
+</body>
+</html>

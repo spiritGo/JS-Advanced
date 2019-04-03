@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.min.js"></script>
+    <script src="../vue-resource.js"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="getInfo">get请求</button>
+    <button @click="postInfo">post请求</button>
+    <button @click="jsonpInfo">jsonp请求</button>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {},
+        methods: {
+            getInfo() {
+                this.$http.get("http://www.baidu.com").then(function (res) {
+                    console.log(res)
+                });
+            },
+            postInfo() {
+                /**
+                 * 发起post请求 application/x-www-form-urlencoded
+                 * 手动发起的 post 请求,默认没有表单格式,所以,有的服务器处理不了
+                 * 通过 post 方法的第三个参数,{ emulateJSON:true } 设置 提交的内容为
+                 * 普通的表单数据格式
+                 */
+                this.$http.post("http://www.baidu.com", {}, {emulateJSON: true}).then(function (res) {
+                    console.log(res)
+                });
+            },
+            jsonpInfo() {
+                /*发起jsonp请求*/
+                this.$http.jsonp("http://www.baidu.com").then(res => {
+                    console.log(res)
+                })
+            }
+        }
+    });
+</script>
+</body>
+</html>

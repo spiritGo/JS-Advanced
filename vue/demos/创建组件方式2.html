@@ -1,0 +1,29 @@
+<!-- 创建组件的方式.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <mycom2></mycom2>
+    </div>
+    <script>
+    //注意:不论是那种方式创建出来的组件,组件的 template 属性指向模板内容,必须有且只能有唯一的一个根元素
+    Vue.component('mycom2', {
+        template: '<h3>这是直接使用 Vue.componet 创建出来的组件</h3>'
+    });
+
+    new Vue({
+        el: '#app',
+        data: {},
+        method: {}
+    });
+    </script>
+</body>
+
+</html>
