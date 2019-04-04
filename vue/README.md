@@ -706,3 +706,345 @@ new Vue({
     }
 });
 ```
+
+## 组件中的 data 和 methods
+
+```html
+<div id="app">
+    <mycom1></mycom1>
+</div>
+<script>
+    // 1.组件可以有自己的 data 数据
+    // 2.组件的 data 和实例的 data 有点不一样,实例中的 data 可以为一个对象,但是组件中的 data 必须是一个方法
+    // 3.组件中的 data 除了必须为一个方法之外,这个方法内部,还必须返回一个对象才行
+    // 4.组件中的 data 数据使用方式和实例中的 data 使用方式完全一样!!!
+    Vue.component('mycom1', {
+        template: '<h1>这是全局组件 --- {{msg}}</h1>',
+        data: function() {
+            return {
+                msg: '这是组件中data定义的数据'
+            }
+        }
+    });
+
+    new Vue({
+        el: '#app',
+        data: {},
+        method: {},
+    });
+</script>
+```
+
+## 组件切换
+
+- 组件切换1
+
+```html
+<div id="app">
+    <a href="" @click.prevent='flag=true'>登录</a>
+    <a href="" @click.prevent='flag=false'>注册</a>
+    <login v-if='flag'></login>
+    <register v-else='flag'></register>
+</div>
+<script>
+    Vue.component('login', {
+        template: '<h1>登录页面</h1>',
+        data() {
+            return {};
+        }
+    });
+
+    Vue.component('register', {
+        template: '<h1>注册页面</h1>',
+        data() {
+            return {};
+        }
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            flag: true
+        },
+        method: {},
+    });
+</script>
+```
+
+- 组件切换2
+
+```html
+<div id="app">
+    <a href="" @click.prevent='comName="login"'>登录</a>
+    <a href="" @click.prevent='comName="register"'>注册</a>
+    <component :is='comName'></component>
+</div>
+<script>
+    Vue.component('login', {
+        template: '<h1>登录页面</h1>',
+        data() {
+            return {};
+        }
+    });
+
+    Vue.component('register', {
+        template: '<h1>注册页面</h1>',
+        data() {
+            return {};
+        }
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            comName: 'login'
+        },
+        method: {},
+    });
+</script>
+```
+
+- 组件切换动画
+
+```html
+<style>
+    .v-enter,
+    .v-leave-to {
+        opacity: 0;
+        transform: translateX(150px);
+    }
+
+    .v-enter-active,
+    .v-leave-active {
+        transition: all .5s ease;
+    }
+</style>
+<div id="app">
+    <a href="" @click.prevent='comName="login"'>登录</a>
+    <a href="" @click.prevent='comName="register"'>注册</a>
+    <transition mode='out-in'>
+        <component :is='comName'></component>
+    </transition>
+</div>
+<script>
+    Vue.component('login', {
+        template: '<h1>登录页面</h1>',
+        data() {
+            return {};
+        }
+    });
+
+    Vue.component('register', {
+        template: '<h1>注册页面</h1>',
+        data() {
+            return {};
+        }
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            comName: 'login'
+        },
+        method: {},
+    });
+</script>
+```
+
+## 组件传值
+
+```html
+<div id="app">
+    <com1 :parentmsg="flag"></com1>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            flag: "true"
+        },
+        method: {},
+        components: {
+            data() {
+                // data 上的数据是可读可写的
+                return {
+                    title: '123'
+                }
+            }
+            com1: {
+                template: '<h1>这是一个子组件 --- {{parentmsg}}</h1>',
+                // 注意:组件居中的所有 props 中的数据,都是通过父组件给子组件的
+                // 先把父组件的值传递过来,在 props 数组中定义一下,这样才能使用这个数据
+                // props 中的数据都是只读的,无法重新赋值
+                props: ['parentmsg']
+            }
+        }
+    });
+</script>
+```
+
+## 组件方法传递
+
+```html
+<div id="app">
+    <com2 @func='show'></com2>
+</div>
+<template id="tmpl">
+    	<div>
+    		<h1>这是一个子组件</h1>
+    		<button @click='myclick'>child</button>
+    	</div>
+    </template>
+<script>
+    var com2 = {
+        template: '#tmpl',
+        methods: {
+            myclick() {
+                // 触发父组件中的 methods
+                this.$emit("func", 123)
+            }
+        }
+    }
+
+    Vue.component('com2', com2);
+
+    new Vue({
+        el: '#app',
+        data: {
+            flag: "true"
+        },
+        methods: {
+            show(data) {
+                console.log("parent --- " + data)
+            }
+        },
+    });
+</script>
+```
+
+## ref获取元素和组件
+
+```html
+<div id="app">
+    <input type="button" value="获取元素" @click='getElement'>
+    <h3 ref='myh3'>哈哈哈,今天天气太好了</h3>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            flag: "true"
+        },
+        methods: {
+            getElement() {
+                console.log(this.$refs.myh3.innerText)
+            }
+        },
+    });
+</script>
+```
+
+## 路由的基本使用
+
+```html
+<div id="app">
+    <a href="#/login">login</a>
+    <a href="#/register">register</a>
+    <!-- view-router 提供的元素,专门用来占位 -->
+    <router-view></router-view>
+</div>
+<script>
+    // 组件的模板对象
+    var login = {
+        template: '<h1>login</h1>'
+    }
+
+    var register = {
+        template: '<h1>register</h1>'
+    }
+
+    // 创建一个路由对象,当导入 vue-router 包之后,在 window 全局对象中就有了一个路由的构造函数,叫做 VueRouter
+    // 在 new 路由对象的时候,可以为构造函数传递一个配置对象 
+    var routerObj = new VueRouter({
+        // route 表示 [路由匹配规则]
+        routes: [ //路由匹配规则
+            // 每个路由规则,都是一个对象,这个对象身上有两个必须的属性
+            // 属性1 path 表示监听哪个路由连接地址
+            // 属性2 component 表示如果路由是前面匹配到的path,则展示 component 属性对应的哪个组件 必须是组件的模板对象
+            {
+                path: '/login',
+                component: login
+            },
+            {
+                path: '/register',
+                component: register
+            }
+        ]
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            flag: "true"
+        },
+        methods: {
+
+        },
+        router: routerObj //将路由规则对象注册到 vm 实例上
+    });
+</script>
+```
+
+## 路由传参
+
+```html
+<div id="app">
+    <router-link to='/login?id=10'>登录</router-link>
+    <router-link to='/register/12/tom'>注册</router-link>
+    <router-view></router-view>
+</div>
+<script>
+    var login = {
+        template: '<h1>login --- {{$route.query.id}}</h1>',
+        created() {
+            console.log(this.$route.query.id);
+        }
+    }
+
+    var register = {
+        template: '<h1>register</h1>',
+        created() {
+            console.log(this.$route.params.id)
+        }
+    }
+
+    var router = new VueRouter({
+        routes: [{
+                path: '/',
+                redirect: '/login'
+            },
+            {
+                path: '/login',
+                component: login
+            },
+            {
+                path: '/register/:id/:name',
+                component: register
+            }
+        ]
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            flag: "true"
+        },
+        methods: {
+
+        },
+        router,
+    });
+</script>
+```
+

@@ -1,0 +1,49 @@
+<!-- 组件传递方法.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <com2 @func='show'></com2>	
+    </div>
+    <template id="tmpl">
+    	<div>
+    		<h1>这是一个子组件</h1>
+    		<button @click='myclick'>child</button>
+    	</div>
+    </template>
+    <script>
+
+	var com2 = {
+		template:'#tmpl',
+		methods:{
+			myclick(){
+				// 触发父组件中的 methods
+				this.$emit("func",123)
+			}
+		}
+	}
+
+	Vue.component('com2',com2);
+
+    new Vue({
+        el: '#app',
+        data: {
+            flag: "true"
+        },
+        methods: {
+        	show(data){
+        		console.log("parent --- "+data)
+        	}
+        },
+    });
+    </script>
+</body>
+
+</html>

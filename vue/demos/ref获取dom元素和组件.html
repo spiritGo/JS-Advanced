@@ -1,0 +1,33 @@
+<!-- ref获取dom元素和组件.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="button" value="获取元素" @click='getElement'>
+        <h3 ref='myh3'>哈哈哈,今天天气太好了</h3>
+    </div>
+    
+    <script>
+
+    new Vue({
+        el: '#app',
+        data: {
+            flag: "true"
+        },
+        methods: {
+        	getElement(){
+        		console.log(this.$refs.myh3.innerText)
+        	}
+        },
+    });
+    </script>
+</body>
+
+</html>
