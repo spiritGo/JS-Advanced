@@ -1048,3 +1048,248 @@ new Vue({
 </script>
 ```
 
+## 路由嵌套
+
+```html
+<div id="app">
+    <router-link to='/account'>account</router-link>
+    <router-view></router-view>
+</div>
+<div id="tmpl">
+    <template>
+            <div>
+                <h1>account</h1>
+                <router-link to='/account/login'>登录</router-link>
+                <router-link to='/account/register'>注册</router-link>
+                <router-view></router-view>
+            </div>
+        </template>
+</div>
+<script>
+    var login = {
+        template: '<h1>login</h1>'
+    }
+
+    var register = {
+        template: '<h1>register</h1>'
+    }
+
+    var account = {
+        template: '#tmpl'
+    }
+
+    var router = new VueRouter({
+        routes: [{
+            path: '/account',
+            component: account,
+            children: [{
+                    path: 'login',
+                    component: login
+                },
+                {
+                    path: 'register',
+                    component: register
+                }
+            ]
+        }]
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            flag: "true"
+        },
+        methods: {
+
+        },
+        router,
+    });
+</script>
+```
+
+## 命名视图实现金典布局
+
+```html
+<style>
+    .header {
+        background-color: orange;
+        height: 80px;
+    }
+
+    h1 {
+        margin: 0;
+    }
+
+    .container {
+        display: flex;
+        height: 600px;
+    }
+
+    .left {
+        background-color: #f0f;
+        flex: 2;
+    }
+
+    .main {
+        background-color: #ff0;
+        flex: 8;
+    }
+</style>
+<div id="app">
+    <router-view></router-view>
+    <div class="container">
+        <router-view name='left'></router-view>
+        <router-view name='main'></router-view>
+    </div>
+</div>
+<script>
+    var header = {
+        template: '<h1 class="header">header</h1>'
+    }
+
+    var leftBox = {
+        template: '<h1 class="left">left侧边区域</h1>'
+    }
+
+    var mainBox = {
+        template: '<h1 class="main">main主体区域</h1>'
+    }
+
+    var router = new VueRouter({
+        routes: [{
+            path: '/',
+            components: {
+                default: header,
+                left: leftBox,
+                main: mainBox
+            }
+        }, ]
+    })
+
+    new Vue({
+        el: '#app',
+        data: {
+            flag: "true"
+        },
+        methods: {
+
+        },
+        router,
+    });
+</script>
+```
+
+## watch监听数据
+
+```html
+<div id="app">
+    <input type="text" v-model='firstName'>+
+    <input type="text" v-model='lastName'>=
+    <input type="text" v-model='fullName'>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            firstName: '',
+            lastName: '',
+            fullName: ''
+        },
+        watch: {
+            firstName: function(newVal) {
+                this.fullName = newVal + '---' + this.lastName;
+            },
+            lastName: function(newValue) {
+                this.fullName = this.firstName + '---' + newValue;
+            }
+        }
+    });
+</script>
+```
+
+## computed监听计算
+
+```html
+<div id="app">
+    <input type="text" v-model='firstName'>+
+    <input type="text" v-model='lastName'>=
+    <input type="text" v-model='fullName'>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            firstName: '',
+            lastName: ''
+        },
+        computed: {
+            /*在 computed 中,可以定义一些属性,这些属性叫做[计算属性],
+            计算属性的本质就是一个方法,只不过我们在使用这些计算属性的时候,
+            是把他们的名称直接当做属性来使用,并不会把计算属性当做方法去调用*/
+
+            /*注意: 计算属性在引用的时候,一定不要加()去调用,直接把他当做普通属性去使用就好了*/
+
+            /*注意: 只要计算属性,这个function内部,所用到的任何data中的数据发生了变化,
+            就会立即计算这个计算属性的值*/
+
+            /*计算属性的求值结果,会被缓存起来,方便下次使用,如果,计算属性方法中的任何数据都没有发生变化
+            ,则,不会重新对计算属性求值*/
+            fullName: function() {
+                return this.firstName + '---' + this.lastName;
+            }
+        }
+    });
+</script>
+```
+
+## nrm 的安装使用
+
+作用: 提供了一些常用的npm包镜像地址,能够让我们快速的切换安装包的服务器地址;
+什么是镜像:原来包刚一开始只存在于国外的npm服务器,但由于网络原因,经常访问不到,这时候.我们可以在国内创建一个和官网完全一样的npm服务器,只不过数据都是从人家那里拿过来的,除此之外,使用方式完全一样
+
+1. 运行 `npm i nrm -g` 全局安装 `nrm`;
+2. 使用 `nrm ls` 查看当前所有可用的镜像源地址及当前所使用的镜像源地址;
+3. 使用 `nrm use npm` 或 `nrm use taobao` 切换不同的镜像地址;
+   > 注意: nrm 只是单纯的提供了几个常用的下载包的url地址,并能够让我们在这几个地址之间很方便的进行切换,但是每次装包的时候,使用的装包工具都是 npm
+
+## webpack
+
+在网页中会引用哪些常见的静态资源
+
+- JS
+  - `.js, .jsx, .coffee, .ts(TypeScript类 C#语言)`
+- CSS
+  - `.css, .less, .sass, .scss`
+- Images
+  - `.jpg, .png, .gif, .bmp, .svg`
+- 字体文件(fonts)
+  - `.svg, .ttf, .eot, .woff, .woff2`
+- 模板文件
+  - `.ejs, jade, .vue(这是在webpack中定义组件的方式,推荐这么用)`
+
+在指定文件夹中安装jquery
+
+1. `npm init -y`
+2. `npm i jquery -S`
+3. 用webpack编译main.js `webpack ./src/main.js -o ./dist/bundle.js`
+
+配置webpack
+
+```javascript
+const path = require('path')
+
+module.exports = {
+    mode: 'production',
+    entry: path.join(__dirname, './src/main.js'), //入口
+    output: {
+        path: path.join(__dirname, './dist'), //指定打包好的文件,输出到哪个目录
+        filename: 'bundle.js'
+    }
+}
+
+// 当我们在控制台,直接输入webpack命令执行的时候,webpack做了以下几步:
+// 1.首先,webpack发现,我们并没有通过命令的形式给他指定入口和出口
+// 2.webpack就会去项目的根目录中查找一个叫做`webpack.config.js`的配置文件
+// 3.当找到配置文件后,webpack会去解析执行这个配置文件,当解析执行完配置文件后,就得到了配置文件中导出的配置对象
+// 4.当webpack拿到配置对象后,就拿到了配置对象中,指定的入口和出口,然后进行打包构建
+```

@@ -1,0 +1,64 @@
+<!-- 路由的嵌套.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="../lib/vue.min.js"></script>
+    <script src="../lib/vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <router-link to='/account'>account</router-link>
+        <router-view></router-view>
+    </div>
+    <div id="tmpl">
+        <template>
+            <div>
+                <h1>account</h1>
+                <router-link to='/account/login'>登录</router-link>
+                <router-link to='/account/register'>注册</router-link>
+                <router-view></router-view>
+            </div>
+        </template>
+    </div>
+    <script>
+    var login = {
+        template: '<h1>login</h1>'
+    }
+
+    var register = {
+        template: '<h1>register</h1>'
+    }
+
+    var account = {
+        template: '#tmpl'
+    }
+
+    var router = new VueRouter({
+        routes: [{
+            path: '/account',
+            component: account,
+            children: [
+                { path: 'login', component: login },
+                { path: 'register', component: register }
+            ]
+        }]
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            flag: "true"
+        },
+        methods: {
+
+        },
+        router,
+    });
+    </script>
+</body>
+
+</html>
