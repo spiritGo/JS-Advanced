@@ -1293,3 +1293,122 @@ module.exports = {
 // 3.当找到配置文件后,webpack会去解析执行这个配置文件,当解析执行完配置文件后,就得到了配置文件中导出的配置对象
 // 4.当webpack拿到配置对象后,就拿到了配置对象中,指定的入口和出口,然后进行打包构建
 ```
+
+## 使用webpack-dev-server实现自动打包编译
+
+1. 运行 `npm install webpack-dev-server -D` 把这个工具安装到项目的本地开发依赖 
+2. 在 `package.json` 中配置webpack
+   ![package.json](images/package.json.png)
+3. 使用，在项目packge.json所在的目录下执行命令 `npm run dev`
+4. webpack-dev-server 会帮我们把 main.js 打包成一个bundle.js 文件, 并存放到电脑的内存中, 和 dist, src, node_modules 平级
+5. 访问:用提供的根路径访问
+   ![pathformwebpack](images/pathformwebpack.png)
+
+## 配置处理css样式表的第三方loader
+
+1. 安装第三方 loader 加载器 
+   `cnpm i style-loader css-loader -D`, 
+   `npm i less-loader -D`, 
+   `npm i less -D`, 
+   `npm i sass-loader -D`, 
+   `npm i node-sass -D`
+2. 配置 webpack.config.js 文件 
+   ![module](images/module.png)
+3. 在 mian.js 中导入即可
+
+## html-webpack-plugin使用
+
+1. 安装
+   `npm i html-webpack-plugin -D`
+2. 在 webpack.config.js 中配置
+
+```javascript
+const htmlWebpackPlugin = require('html-webpack-plugin');
+module.exports = {
+    mode: 'production',
+    entry: path.join(__dirname, './src/main.js'), //入口
+    output: {
+        path: path.join(__dirname, './dist'), //指定打包好的文件,输出到哪个目录
+        filename: 'bundle.js'
+    },
+    plugins: [
+        new htmlWebpackPlugin({
+            template: path.join(__dirname, './src/index.html'), // 指定模板页
+            filename: 'index.html' // 指定生成的页面的名称
+        })
+    ]
+}
+```
+
+## webpack 中的 babel 配置
+
+1. 安装 babel 相关的 loader 功能
+   `npm i babel-core babel-loader babel-plugin-transform-runtime -D`
+   `npm i babel-preset-env babel-preset-stage-0 -D`
+2. 在 webpack 的配置文件中添加新的匹配规则
+
+```javascript
+{
+    test: /\.js$/,
+    use: 'babel-loader',
+    exclude: /node_modules/
+}
+```
+
+3. 在项目的根目录中新建一个 `.babelrc` 的 babel 配置文件
+
+```javascript
+{
+    "presets": ["env", "stage-0"],
+    "plugins": ["transform-runtime"]
+}
+```
+
+## webpack 中导入 Vue
+
+1. **import 中包的查找规则**
+
+   - [x] 找项目根目录中有没有 node_modules 的文件夹
+   - [x] 在 node_modules 中根据报名找对应的 vue 文件夹
+   - [x] 在 vue 文件夹中找一个叫做 package.json 的包配置文件
+   - [x] 在 package.json 文件中,查找一个 main 属性[main属性指定了这个包在加载的时候的入口文件]
+
+2. 在 main.js 中导入 vue
+
+```javascript
+// import Vue from '../node_modules/vue/dist/vue.js';
+// 常规写法 ↑	优雅写法↓
+import Vue from 'vue';
+```
+
+- 优雅写法要在 webpack.config.js 中配置
+
+```javascript
+resolve: {
+    alias: { //修改 Vue 被导入时候的包的路径
+        'vue$': 'vue/dist/vue.js'
+    }
+}
+```
+- main.js 代码
+
+```javascript
+import Vue from 'vue';
+
+var login = {
+    template: '<h1>这是一个h1组件</h1>'
+}
+
+var vm = new Vue({
+    el: '#app',
+    data: {
+        msg: 'ok'
+    },
+    components: {
+        login
+    }
+});
+```
+
+- 当导入 runtime-only 的 vue 包时如何使用组件
+  

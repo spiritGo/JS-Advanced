@@ -1,4 +1,5 @@
 const path = require('path')
+const htmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: 'production',
@@ -6,7 +7,20 @@ module.exports = {
     output: {
         path: path.join(__dirname, './dist'), //指定打包好的文件,输出到哪个目录
         filename: 'bundle.js'
-    }
+    },
+    module: { // 这个节点用于配置所有第三方模块加载器
+        rules: [ //所有第三方模块的匹配规则
+            { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+            { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] },
+            { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] },
+        ]
+    },
+    plugins:[
+    	new htmlWebpackPlugin({
+    		template:path.join(__dirname,'./src/index.html'),// 指定模板页
+    		filename:'index.html' // 指定生成的页面的名称
+    	})
+    ]
 }
 
 // 当我们在控制台,直接输入webpack命令执行的时候,webpack做了以下几步:
