@@ -1364,6 +1364,19 @@ module.exports = {
 }
 ```
 
+## render
+
+```javascript
+new Vue({
+    el: '#app',
+    // createElement 是一个方法,调用它,能够把指定的组件模板渲染为html结构
+    render: function(createElement) {
+        return createElement(login)
+        // 注意:这里 return 的结果,会替换页面中 el 指定的那个容器
+    }
+});
+```
+
 ## webpack 中导入 Vue
 
 1. **import 中包的查找规则**
@@ -1390,6 +1403,7 @@ resolve: {
     }
 }
 ```
+
 - main.js 代码
 
 ```javascript
@@ -1411,4 +1425,61 @@ var vm = new Vue({
 ```
 
 - 当导入 runtime-only 的 vue 包时如何使用组件
-  
+  - 创建 .vue 后缀的文件, 内容格式如下
+
+```html
+<template>
+	<div>
+		<h1>这是 runtime only 状态下的 h1</h1>
+	</div>
+</template>
+<script>
+</script>
+<style>
+</style>
+```
+
+- 但默认, webpack 无法打包 .vue 文件,需要安装相关的loader
+
+1. `npm i vue-loader vue-template-compiler -D`
+2. 在 webpack.config.js 文件中, 导入 VueLoaderPlugin, 新增 loader 配置 
+   ![VueLoaderPlugin](images/VueLoaderPlugin.png)
+3. 在 main.js 中使用 `import login from './login.vue'` 导入这个组件
+4. 创建 vm 实例  
+
+```javascript
+var vm = new Vue({
+    el: '#app',
+    render: c => c(login)
+});
+```
+
+5. 在页面中创建一个 id 为app 的div 元素,作为我们 vm 实例要控制的区域
+
+## export default 和 export 的使用方式
+
+1. node 中向外暴露成员的形式
+   - var 名称 = require(‘模块标志符’)
+   - module.exports 和 exports 来暴露成员
+2. 在 es6 中导入和导出模块
+   - import 模块名称 from ‘模块标志符’
+   - export default 和 export 向外暴露成员 
+   - 在同一模块中可以同时使用 export default 和 export 向外暴露成员
+
+```javascript
+//注意: 使用 export 向外暴露成员,只能用 {} 的形式来接收,这种形式叫做[按需导入]
+//export 可以向外导出多个成员,export default 只能向外导出一个成员
+//使用 export 导出的成员,必须严格按照导出的时候的名称来使用 {} 按需导出
+//使用 export 导出的成员,如果想要换个名称来接收,可以使用 as 来起别名
+export var title = '小星星'
+export var content = '小行星'
+
+在 main.js 中导出
+inport {
+    title,
+    content as content123
+}
+from '路径'
+```
+
+
